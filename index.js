@@ -14,7 +14,7 @@ class Client {
     }
 }
 
-async function getData() {
+const getData = async () => {
     try {
         const result = await fetch(`https://script.googleusercontent.com/macros/echo?user_content_key=adAPGf6PEivqPpn1IiOGQ4ReXlmr6SFVdriSCmB8bhHs60eEuHJW75MFpf3cqyTiOSpAQOuDYvq1l5auwJgNAgeZF-91yaRvm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnBOBjU-9TSGvuOhPqIMTJQKhc7LEJ9fQ02J1-OwLiR8vDgGkFwqf1OH7jbd34yzKwhdIug5zkO6q&lib=MsoO2fZ7GpcAvxSnFqDRWHzPTuxB3ZxFA`);
         const data = await result.json();
@@ -24,19 +24,20 @@ async function getData() {
         }); 
         
         const renderSearch = param => {
+            const currentResult = results.find(cur => cur.id == param);
             console.log(`
-            ID: ${results.find(cur => cur.id == param).id}            
-            Имя: ${results.find(cur => cur.id == param).name}            
-            Дата приемки: ${results.find(cur => cur.id == param).dateIn}            
-            Тип услуги: ${results.find(cur => cur.id == param).type}            
-            Модель: ${results.find(cur => cur.id == param).model}            
-            Описание неисправности: ${results.find(cur => cur.id == param).descr}            
-            Выполненные работы: ${results.find(cur => cur.id == param).work}            
-            Дата выдачи: ${results.find(cur => cur.id == param).dateOut}            
-            Статус: ${results.find(cur => cur.id == param).status}            
+            ID: ${currentResult.id}            
+            Имя: ${currentResult.name}            
+            Дата приемки: ${currentResult.dateIn}            
+            Тип услуги: ${currentResult.type}            
+            Модель: ${currentResult.model}            
+            Описание неисправности: ${currentResult.descr}            
+            Выполненные работы: ${currentResult.work}            
+            Дата выдачи: ${currentResult.dateOut}            
+            Статус: ${currentResult.status}            
             `);
         }
-        renderSearch(2894);
+        renderSearch(2897);
 
     } catch(error) {
         console.log(error);

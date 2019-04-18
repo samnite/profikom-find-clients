@@ -33,7 +33,7 @@ const getData = async () => {
         document.querySelector('.search_input').value = '';
 
     } catch(error) {
-        alert(`Такого ID не сущетсвует.`);
+        errorMsg();
     }
 };
 
@@ -44,6 +44,7 @@ document.querySelector('.search_button').addEventListener('click', e => {
 
 const renderSearch = param => {
     const currentResult = results.find(cur => cur.id == param);    
+    if (currentResult.dateIn != '') {
     document.querySelector('.search_results').innerHTML = `
         <ul class="border">
             <li><span>Номер заказа:</span> <em>${currentResult.id}</em><div style="clear: both;"></div></li>
@@ -56,6 +57,7 @@ const renderSearch = param => {
             <li><span>Статус:</span> <em>${formatStatus(currentResult.status)}</em><div style="clear: both;"></div></li>
         </ul>
     `;
+    } else errorMsg();
 };
 
 const formatDate = day => {
@@ -71,3 +73,9 @@ const formatStatus = status => {
     else if (status == 'готово/выдано') return `Заказ готов и выдан клиенту`;
     else if (status == 'возврат') return `Отказ, возвращен клиенту`;
 };
+
+const errorMsg = () => {
+    document.querySelector('.loader').style.display = 'none';
+    alert(`Такого заказа не сущетсвует.`);
+    document.querySelector('.search_input').value = '';
+}

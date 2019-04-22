@@ -15,6 +15,7 @@ class Client {
     }
 }
 
+
 document.querySelector('.loader').style.display = 'none';
 const getData = async () => {
     document.querySelector('.loader').style.display = 'block';
@@ -22,29 +23,44 @@ const getData = async () => {
     try {
         const result = await fetch(`https://script.googleusercontent.com/macros/echo?user_content_key=adAPGf6PEivqPpn1IiOGQ4ReXlmr6SFVdriSCmB8bhHs60eEuHJW75MFpf3cqyTiOSpAQOuDYvq1l5auwJgNAgeZF-91yaRvm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnBOBjU-9TSGvuOhPqIMTJQKhc7LEJ9fQ02J1-OwLiR8vDgGkFwqf1OH7jbd34yzKwhdIug5zkO6q&lib=MsoO2fZ7GpcAvxSnFqDRWHzPTuxB3ZxFA`);
         const data = await result.json();        
-        const userID = document.querySelector('.search_input').value;
+        
 
         data.result.forEach(e => {
             results.push(new Client(e[0], e[2], e[3], e[4], e[5], e[6], e[7], e[10], e[11], e[12]));
         });
          
-        renderSearch(userID);
         document.querySelector('.loader').style.display = 'none';
-        document.querySelector('.search_input').value = '';
+        //document.querySelector('.search_input').value = '';
 
     } catch(error) {
         errorMsg();
     }
 };
 
-document.querySelector('.search_button').addEventListener('click', e => {    
-    getData();
+window.addEventListener('load', () => {
+    getData();   
 });
 
+document.querySelector('.search_button').addEventListener('click', e => {    
+    prerenderResults();
+});
+
+document.querySelector('.search').addEventListener('keypress', e => {
+    //console.log(document.querySelector('.search_input').value)
+    if (event.keyCode === 13 || event.which === 13) prerenderResults();
+});
+
+const prerenderResults = () => {
+    const userID = document.querySelector('.search_input').value;
+    renderSearch(userID);
+    document.querySelector('.loader').style.display = 'none';
+    document.querySelector('.search_input').value = '';
+};
 
 const renderSearch = param => {
     const currentResult = results.find(cur => cur.id == param);    
-    if (currentResult.dateIn != '') {
+    console.log(currentResult);
+    if (currentResult && currentResult.id) {
     document.querySelector('.search_results').innerHTML = `
         <ul class="border">
             <li><span>Номер заказа:</span> <em>${currentResult.id}</em><div style="clear: both;"></div></li>
@@ -75,7 +91,8 @@ const formatStatus = status => {
 };
 
 const errorMsg = () => {
-    document.querySelector('.loader').style.display = 'none';
     alert(`Такого заказа не сущетсвует.`);
+    document.querySelector('.loader').style.display = 'none';
     document.querySelector('.search_input').value = '';
+    document.querySelector('.search_results').innerHTML = '';
 }

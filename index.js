@@ -22,15 +22,14 @@ const getData = async () => {
     document.querySelector('.search_results').innerHTML = '';
     try {
         const result = await fetch(`https://script.googleusercontent.com/macros/echo?user_content_key=adAPGf6PEivqPpn1IiOGQ4ReXlmr6SFVdriSCmB8bhHs60eEuHJW75MFpf3cqyTiOSpAQOuDYvq1l5auwJgNAgeZF-91yaRvm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnBOBjU-9TSGvuOhPqIMTJQKhc7LEJ9fQ02J1-OwLiR8vDgGkFwqf1OH7jbd34yzKwhdIug5zkO6q&lib=MsoO2fZ7GpcAvxSnFqDRWHzPTuxB3ZxFA`);
-        const data = await result.json();        
-        
+        const data = await result.json();                
 
         data.result.forEach(e => {
             results.push(new Client(e[0], e[2], e[3], e[4], e[5], e[6], e[7], e[10], e[11], e[12]));
         });
          
         document.querySelector('.loader').style.display = 'none';
-        //document.querySelector('.search_input').value = '';
+        document.querySelector('.search').style.display = 'block';
 
     } catch(error) {
         errorMsg();
@@ -38,7 +37,8 @@ const getData = async () => {
 };
 
 window.addEventListener('load', () => {
-    getData();   
+    document.querySelector('.search').style.display = 'none';
+    getData();       
 });
 
 document.querySelector('.search_button').addEventListener('click', e => {    
@@ -46,7 +46,6 @@ document.querySelector('.search_button').addEventListener('click', e => {
 });
 
 document.querySelector('.search').addEventListener('keypress', e => {
-    //console.log(document.querySelector('.search_input').value)
     if (event.keyCode === 13 || event.which === 13) prerenderResults();
 });
 

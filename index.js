@@ -1,22 +1,18 @@
 const results= [];
 
 class Client {
-    constructor (id, dateIn, type, model, descr, tel, name, work, dateOut, status) {
+    constructor (id, dateIn, type, model, descr, work, dateOut, status) {
         this.id = id;
         this.dateIn = dateIn;
         this.type = type;
         this.model = model;
         this.descr = descr;
-        this.tel = tel;
-        this.name = name;
         this.work = work;
         this.dateOut = dateOut;
         this.status = status;
     }
-}
+};
 
-
-document.querySelector('.loader').style.display = 'none';
 const getData = async () => {
     document.querySelector('.loader').style.display = 'block';
     document.querySelector('.search_results').innerHTML = '';
@@ -25,7 +21,7 @@ const getData = async () => {
         const data = await result.json();                
 
         data.result.forEach(e => {
-            results.push(new Client(e[0], e[2], e[3], e[4], e[5], e[6], e[7], e[10], e[11], e[12]));
+            if (e[0]) results.push(new Client(e[0], e[2], e[3], e[4], e[5], e[10], e[11], e[12]));
         });
          
         document.querySelector('.loader').style.display = 'none';
@@ -57,6 +53,7 @@ const prerenderResults = () => {
 };
 
 const renderSearch = param => {
+    console.log(results);
     const currentResult = results.find(cur => cur.id == param);    
     console.log(currentResult);
     if (currentResult && currentResult.id) {

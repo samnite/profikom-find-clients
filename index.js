@@ -28,12 +28,11 @@ const getData = async () => {
         document.querySelector('.search').style.display = 'block';
 
     } catch(error) {
-        errorMsg();
+        alert(`Ошибка загрузки данных, попробуйте позже.`);
     }
 };
 
 window.addEventListener('load', () => {
-    document.querySelector('.search').style.display = 'none';
     getData();       
 });
 
@@ -87,7 +86,7 @@ const formatStatus = status => {
 };
 
 const errorMsg = () => {
-    alert(`Такого заказа не сущетсвует.`);
+    alert(`Заказа с таким номером не существует.`);
     document.querySelector('.loader').style.display = 'none';
     document.querySelector('.search_input').value = '';
     document.querySelector('.search_results').innerHTML = '';

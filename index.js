@@ -52,9 +52,7 @@ const prerenderResults = () => {
 };
 
 const renderSearch = param => {
-    console.log(results);
     const currentResult = results.find(cur => cur.id == param);    
-    console.log(currentResult);
     if (currentResult && currentResult.id) {
     document.querySelector('.search_results').innerHTML = `
         <ul class="border">
@@ -90,4 +88,4 @@ const errorMsg = () => {
     document.querySelector('.loader').style.display = 'none';
     document.querySelector('.search_input').value = '';
     document.querySelector('.search_results').innerHTML = '';
-}
+};
